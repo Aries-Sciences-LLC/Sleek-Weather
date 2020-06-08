@@ -1,0 +1,102 @@
+[
+    {
+        "name": "Blu",
+        "colors": ["#00416A", "#E4E5E6"]
+    },
+    {
+        "name": "Ver",
+        "colors": ["#FFE000", "#799F0C"]
+    },
+    {
+        "name": "Ver Black",
+        "colors": ["#F7F8F8", "#ACBB78"]
+    },
+    {
+        "name": "Combi",
+        "colors": ["#00416A", "#799F0C", "#FFE000"]
+    },
+    {
+        "name": "Anwar",
+        "colors": ["#334d50", "#cbcaa5"]
+    },
+    {
+        "name": "Bluelagoo",
+        "colors": ["#0052D4", "#4364F7", "#6FB1FC"]
+    },
+    {
+        "name": "Lunada",
+        "colors": ["#5433FF", "#20BDFF", "#A5FECB"]
+    },
+    {
+        "name": "Reaqua",
+        "colors": ["#799F0C", "#ACBB78"]
+    },
+    {
+        "name": "Mango",
+        "colors": ["#ffe259", "#ffa751"]
+    },
+    {
+        "name": "Bupe",
+        "colors": ["#00416A", "#E4E5E6"]
+    },
+    {
+        "name": "Rea",
+        "colors": ["#FFE000", "#799F0C"]
+    },
+    {
+        "name": "Windy",
+        "colors": ["#acb6e5", "#86fde8"]
+    },
+    {
+        "name": "Royal Blue",
+        "colors": ["#536976", "#292E49"]
+    },
+    {
+        "name": "Royal Blue + Petrol",
+        "colors": ["#BBD2C5", "#536976", "#292E49"]
+    },
+    {
+        "name": "Copper",
+        "colors": ["#B79891", "#94716B"]
+    },
+    {
+        "name": "Anamnisar",
+        "colors": ["#9796f0", "#fbc7d4"]
+    },
+    {
+        "name": "Petrol",
+        "colors": ["#BBD2C5", "#536976"]
+    },
+    {
+        "name": "Sky",
+        "colors": ["#076585", "#fff"]
+    },
+    {
+        "name": "Sel",
+        "colors": ["#00467F", "#A5CC82"]
+    },
+    {
+        "name": "Skyline",
+        "colors": ["#1488CC", "#2B32B2"]
+    },
+    {
+        "name": "DIMIGO",
+        "colors": ["#ec008c", "#fc6767"]
+    },
+    {
+        "name": "Purple Love",
+        "colors": ["#cc2b5e", "#753a88"]
+    },
+    {
+        "name": "Sexy Blue",
+        "colors": ["#2193b0", "#6dd5ed"]
+    },
+    {
+        "name": "Blooker20",
+        "colors": ["#e65c00", "#F9D423"]
+    },
+    {
+        "name": "Sea Blue",
+        "colors": ["#2b5876", "#4e4376"]
+    }
+]
