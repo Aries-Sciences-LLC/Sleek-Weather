@@ -7,7 +7,6 @@ import 'package:sleek_weather/Weather/WeatherCard.dart';
 import 'package:sleek_weather/Backend/ReorderableListHandler.dart';
 
 import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
-import 'package:time_formatter/time_formatter.dart';
 
 class Forecast extends StatefulWidget {
   final Weather forecast;
@@ -29,11 +28,11 @@ class _Forecast extends State<Forecast> with TickerProviderStateMixin {
           Padding(
             padding: const EdgeInsets.only(
               top: 20,
-              left: 20,
+              left: 25,
             ),
             child: Icon(
               widget.forecast.getIconData(),
-              size: (MediaQuery.of(context).size.width / 3) - 20,
+              size: (MediaQuery.of(context).size.width / 3) - 40,
               color: Weather.greeting() == "Good Evening," ? Colors.black54 : Colors.black38,
             ),
           ),
@@ -55,16 +54,16 @@ class _Forecast extends State<Forecast> with TickerProviderStateMixin {
                         "High",
                         style: TextStyle(
                           color: Colors.black38,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       Text(
                         "${widget.forecast.maxTemperature}°",
                         style: TextStyle(
                           color: Colors.black54,
-                          fontSize: 39,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
@@ -95,16 +94,16 @@ class _Forecast extends State<Forecast> with TickerProviderStateMixin {
                         "Low",
                         style: TextStyle(
                           color: Colors.black38,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       Text(
                         "${widget.forecast.minTemperature}°",
                         style: TextStyle(
                           color: Colors.black54,
-                          fontSize: 39,
-                          fontWeight: FontWeight.w500,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ],
@@ -163,7 +162,10 @@ class _Forecast extends State<Forecast> with TickerProviderStateMixin {
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                           Item cell = Item(
-                            data: ItemData(widget.forecast.weekdays[index].day, ValueKey(index)),
+                            data: ItemData(
+                              widget.forecast.weekdays[index].day,
+                              ValueKey(index)
+                            ),
                             // first and last attributes affect border drawn during dragging
                             isFirst: false,
                             isLast: false,
@@ -199,6 +201,8 @@ class _Forecast extends State<Forecast> with TickerProviderStateMixin {
                         "Wind Speed",
                         style: TextStyle(
                           color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12
                         ),
                       ),
                     ),
@@ -227,6 +231,8 @@ class _Forecast extends State<Forecast> with TickerProviderStateMixin {
                         "Sunrise",
                         style: TextStyle(
                           color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12
                         ),
                       ),
                     ),
@@ -255,6 +261,8 @@ class _Forecast extends State<Forecast> with TickerProviderStateMixin {
                         "Sunset",
                         style: TextStyle(
                           color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12
                         ),
                       ),
                     ),
@@ -283,6 +291,8 @@ class _Forecast extends State<Forecast> with TickerProviderStateMixin {
                         "Humidity",
                         style: TextStyle(
                           color: Colors.grey,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12
                         ),
                       ),
                     ),

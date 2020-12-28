@@ -35,18 +35,17 @@ class _LocationManager extends State<LocationManager> with TickerProviderStateMi
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(
-                  top: 75,
+                  top: 35,
                   bottom: 20,
-                  left: 10,
+                  left: 20,
                 ),
                 child: Text(
                   "Your Places",
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: const Color.fromRGBO(101, 99, 235, 0.7),
+                    color: const Color.fromRGBO(66, 99, 144, 1),
                     fontSize: 35,
-                    decoration: TextDecoration.overline,
-                    decorationColor: Colors.white,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -59,14 +58,11 @@ class _LocationManager extends State<LocationManager> with TickerProviderStateMi
                         left: 40,
                         right: 40,
                         bottom: 100,
-                        top: 150,
+                        top: 100,
                       ),
                       child: ReorderableList(
                         onReorder: (item, newPosition) {
-                          return ItemData.reorderCallback(_items, item, newPosition);
-                        },
-                        onReorderDone: (item) {
-                          ItemData.reorderDone(_items, item);
+                          return false;
                         },
                         child: CustomScrollView(
                           // cacheExtent: 3000,

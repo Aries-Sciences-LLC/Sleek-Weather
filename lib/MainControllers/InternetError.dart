@@ -45,7 +45,11 @@ class _InternetErrorController extends State<InternetErrorController> {
                   child: Text(
                     "Whoops!",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.display1,
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54
+                    ),
                   ),
                 ),
               ),
@@ -53,15 +57,15 @@ class _InternetErrorController extends State<InternetErrorController> {
             FadeIn(
               1.0,
               Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.fromLTRB(40.0, 5.0, 40.0, 5.0),
                 child: Center(
                   child: Text(
                     "There's no network connection, Make sure you're connected to a Wi-fi or moblie netowork and try again.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white, 
-                      fontSize: 17.0, 
-                      fontWeight: FontWeight.normal
+                      color: Colors.white,
+                      fontSize: 13.0,
+                      fontWeight: FontWeight.bold
                     ),
                   ),
                 ),

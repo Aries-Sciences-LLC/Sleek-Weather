@@ -117,7 +117,7 @@ class Item extends StatelessWidget {
         padding:
             EdgeInsets.symmetric(vertical: 14.0, horizontal: 14.0),
         child: Text(data.title,
-            style: TextStyle(color: textColor)),
+            style: TextStyle(color: textColor, fontWeight: FontWeight.bold)),
       )),
     ];
 

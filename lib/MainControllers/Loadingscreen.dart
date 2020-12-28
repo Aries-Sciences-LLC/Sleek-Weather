@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:app_settings/app_settings.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Loadingscreen extends StatefulWidget {
   @override
@@ -36,7 +36,7 @@ class _Loadingscreen extends State<Loadingscreen> with TickerProviderStateMixin 
               opacity: display,
               child: FlatButton(
                 onPressed: () {
-                  AppSettings.openLocationSettings();
+                  Geolocator.openLocationSettings();
                 },
                 child: Text(
                   "If it hasn't loaded yet, try checking the location prefrences for the app here.",

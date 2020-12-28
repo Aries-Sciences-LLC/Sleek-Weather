@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
@@ -24,7 +23,7 @@ class ColorsManager {
   static Future<void> setupColorValues() async {
     colors = List<GradientColor>();
 
-    List<dynamic> data = ((await DataManager.parseJSONFromAssets("lib/Colors/Gradients.json")) as List<dynamic>);
+    List<dynamic> data = await DataManager.parseJSONFromAssets("assets/Gradients.json");
 
     for (Map<String, dynamic> colorData in data) {
       List<Color> gradient = List<Color>();

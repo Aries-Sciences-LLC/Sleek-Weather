@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 
 class ServerSide {
   Map<String, String> API_KEY = {
-    "PLACES": "AIzaSyDadKyeWiz0f3QNTFjVNIu5djkxI0Z6AMY",
+    "PLACES": "AIzaSyBiJYOnWlcNV9QxNE5PphsSam-LrtaYGps",
     "OPENWEATHERMAP": "c43dc67f50678fa8deb7d820b8cc9f69",
     "DARKKSKY": "2bdd9d8cfb0c5c46d2e953979e07dde6",
   };
@@ -21,6 +21,7 @@ class ServerSide {
   ServerSide(this.baseURL, this.arguments);
 
   Future<Response> access(String type) async {
+    print('$baseURL?$arguments&${API_HEADER[type]}=${API_KEY[type]}'.replaceAll(" ", "+"));
     return await Dio().get('$baseURL?$arguments&${API_HEADER[type]}=${API_KEY[type]}'.replaceAll(" ", "+"));
   }
 }

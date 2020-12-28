@@ -1,4 +1,5 @@
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:sleek_weather/Backend/DataManager.dart';
@@ -57,17 +58,24 @@ class Location {
   }
 
   static void getCurrentCoordinates(Function callback) {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-    geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((Position position) async {
-      try {
-        List<Placemark> p = await geolocator.placemarkFromCoordinates(position.latitude, position.longitude);
-        callback(Location(p[0].locality + ", " + p[0].administrativeArea + ", " + p[0].country, position.latitude, position.longitude));
-      } catch (e) {
-        print(e);
+    Geolocator.checkPermission().then((value) => {
+      if (value != LocationPermission.denied && value != LocationPermission.deniedForever) {
+        Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((Position position) async {
+          try {
+            print("got here?");
+            List<Address> p = await Geocoder.local.findAddressesFromCoordinates(new Coordinates(position.latitude, position.longitude));
+            callback(Location(p[0].locality + ", " + p[0].adminArea + ", " + p[0].countryName, position.latitude, position.longitude));
+          } catch (e) {
+            print(e);
+          }
+        }).catchError((e) {
+          print(e);
+        })
+      } else {
+        Geolocator.requestPermission().then((value) => {
+          getCurrentCoordinates(callback)
+        })
       }
-    }).catchError((e) {
-      print(e);
     });
   }
 
@@ -107,7 +115,7 @@ class Location {
 
   static Future<List<Location>> fetchLocationList() async {
     List<String> data = (await SharedPreferences.getInstance()).getStringList(DataManager.PREFRENCES_KEY);
-    
+    print(data);
     if (data != null) {
       List<Location> locations = List();
       for(int i = 0; i < data.length; i++) {

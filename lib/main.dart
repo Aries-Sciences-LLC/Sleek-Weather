@@ -17,6 +17,9 @@ void main() {
   runApp(
     MaterialApp(
       home: SleekWeather(),
+      theme: ThemeData(
+        fontFamily: "Avenir-Book",
+      ),
       debugShowCheckedModeBanner: false,
     )
   );
@@ -55,16 +58,10 @@ class _SleekWeather extends State<SleekWeather> {
 
   @override
   Widget build(BuildContext context) {
-    connectivityProtocol.connectionChange.listen((connection) {
-      if (!connection) {
-        APPSTRUCTURE.setMainController(InternetErrorController());
-      } else {
-        APPSTRUCTURE.setupData();
-        APPSTRUCTURE.setMainController(Loadingscreen());
-      }
-    });
-
-    if (!DataManager.verifiedData()) {
+    if (!connectivityProtocol.hasConnection) {
+      APPSTRUCTURE.setMainController(InternetErrorController());
+    } else if (!DataManager.verifiedData()) {
+      APPSTRUCTURE.setupData();
       APPSTRUCTURE.setMainController(Loadingscreen());
     } else {
       APPSTRUCTURE.setMainController(Homescreen(

@@ -27,16 +27,17 @@ class _LocationSelector extends State<LocationSelector> with TickerProviderState
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(
-            top: 50,
+            top: 5,
             bottom: 20,
-            left: 10,
+            left: 20,
           ),
           child: Text(
-            "Add Location",
+            "Add a Location",
             textAlign: TextAlign.left,
             style: TextStyle(
-              color: const Color.fromRGBO(101, 99, 235, 0.7),
+              color: const Color.fromRGBO(66, 99, 144, 1),
               fontSize: 35,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
@@ -48,13 +49,14 @@ class _LocationSelector extends State<LocationSelector> with TickerProviderState
                 left: 40,
                 right: 40,
                 bottom: 10,
-                top: 125,
+                top: 75,
               ),
               child: TextField(
                 focusNode: textFieldManager,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
                 ),
                 onChanged: (keyLocation) {
                   setState(() {
@@ -67,27 +69,19 @@ class _LocationSelector extends State<LocationSelector> with TickerProviderState
                 decoration: InputDecoration(
                   labelStyle: TextStyle(
                     color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
                   ),
                   icon: Icon(
                     Icons.search,
-                    size: 40,
+                    size: 20,
                     color: Colors.white,
                   ),
                   hintText: 'Enter City, Country, etc.',
                   hintStyle: TextStyle(
-                    color: Colors.grey
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.grey,
-                      width: 1.0,
-                      style: BorderStyle.solid
-                    ),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.white
-                    )
+                    color: Colors.grey,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -99,6 +93,10 @@ class _LocationSelector extends State<LocationSelector> with TickerProviderState
               ),
               child: Text(
                 justEntered ? "Click Done to Search" : "No Results",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white.withAlpha(700),
+                ),
               ),
             ),
             Expanded(

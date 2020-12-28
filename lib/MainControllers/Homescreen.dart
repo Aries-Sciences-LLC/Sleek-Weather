@@ -43,7 +43,7 @@ class _Homescreen extends State<Homescreen> with TickerProviderStateMixin {
             child: Icon(
               Weather.forecast[DataManager.currentLocation].getIconData(),
               size: 250,
-              color: Color.fromRGBO(255, 255, 255, 0.5),
+              color: Color.fromRGBO(55, 55, 55, 0.5),
             ),
           ),
           AnimatedPositioned(
@@ -58,16 +58,18 @@ class _Homescreen extends State<Homescreen> with TickerProviderStateMixin {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: CarouselSlider(
-                  enlargeCenterPage: true,
-                  aspectRatio: 0.8,
-                  viewportFraction: 0.8,
-                  enableInfiniteScroll: DataManager.locations.length > 1,
-                  height: MediaQuery.of(context).size.height,
-                  onPageChanged: (index) {
-                    setState(() {
-                      DataManager.currentLocation = index;
-                    });
-                  },
+                  options: CarouselOptions(
+                    enlargeCenterPage: true,
+                    aspectRatio: 0.8,
+                    viewportFraction: 0.85,
+                    enableInfiniteScroll: DataManager.locations.length > 1,
+                    height: MediaQuery.of(context).size.height,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        DataManager.currentLocation = index;
+                      });
+                    },
+                  ),
                   items: DataManager.locations.map((weatherLocation) {
                     return Builder(
                       builder: (BuildContext context) {
@@ -302,8 +304,8 @@ class _Homescreen extends State<Homescreen> with TickerProviderStateMixin {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 color: const Color.fromRGBO(101, 99, 235, 0.7),
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w800,
                               ),
                             ),
                             Padding(
@@ -315,9 +317,9 @@ class _Homescreen extends State<Homescreen> with TickerProviderStateMixin {
                                 "${Weather.summary()}",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white.withAlpha(970),
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),

@@ -33,11 +33,15 @@ class _WeatherCard extends State<WeatherCard> with TickerProviderStateMixin {
                   ),
                   child: Text(
                     widget.data.time,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 Icon(
                   widget.data.icon,
-                  size: 25,
+                  size: 20,
                   color: Colors.black45,
                 ),
                 Padding(
@@ -47,7 +51,8 @@ class _WeatherCard extends State<WeatherCard> with TickerProviderStateMixin {
                   child: Text(
                     "${widget.data.temperature}°",
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
