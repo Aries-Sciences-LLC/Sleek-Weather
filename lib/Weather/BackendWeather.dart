@@ -59,13 +59,11 @@ class Weather {
   }
 
   static void fetchData() {
-    print(DataManager.locations);
     for(int i = 0; i < DataManager.locations.length; i++) {
       double latitude = DataManager.locations[i].latitude;
       double longitude = DataManager.locations[i].longitude;
       ServerSide("https://api.openweathermap.org/data/2.5/weather", "lat=$latitude&lon=$longitude&units=imperial").access("OPENWEATHERMAP").then(
         (weatherData) {
-          print("Got em");
           forecast.add(Weather.fromJson(weatherData.data));
           summaries.add("It's ${weatherData.data['main']['temp'].toDouble().round()}° with ${weatherData.data['weather'][0]['description']}.");
 

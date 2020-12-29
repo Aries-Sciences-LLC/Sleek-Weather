@@ -123,7 +123,7 @@ class Item extends StatelessWidget {
 
     if (reorderable == "true") {
       cells.insert(0, Icon(
-        isFirst ? Icons.my_location : Icons.place,
+        isFirst ? Icons.navigation : Icons.place,
         size: 25,
         color: Colors.white,
       ));

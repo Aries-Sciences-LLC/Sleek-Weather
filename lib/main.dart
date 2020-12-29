@@ -58,24 +58,29 @@ class _SleekWeather extends State<SleekWeather> {
 
   @override
   Widget build(BuildContext context) {
-    if (!connectivityProtocol.hasConnection) {
-      APPSTRUCTURE.setMainController(InternetErrorController());
-    } else if (!DataManager.verifiedData()) {
-      APPSTRUCTURE.setupData();
-      APPSTRUCTURE.setMainController(Loadingscreen());
-    } else {
-      APPSTRUCTURE.setMainController(Homescreen(
-        switcher: () {
-          setState(() {
-            APPSTRUCTURE.switcher = !APPSTRUCTURE.switcher;
-          });
-        }
-      ));
-    }
-
     return Scaffold(
-      body: Stack(
-        children: APPSTRUCTURE.controllers,
+      body: FutureBuilder<bool>(
+        future: connectivityProtocol.checkConnection(),
+        builder: (BuildContext context, AsyncSnapshot<bool> connected) {
+          if (!connectivityProtocol.hasConnection) {
+            APPSTRUCTURE.setMainController(InternetErrorController());
+          } else if (!DataManager.verifiedData()) {
+            APPSTRUCTURE.setupData();
+            APPSTRUCTURE.setMainController(Loadingscreen());
+          } else {
+            APPSTRUCTURE.setMainController(Homescreen(
+              switcher: () {
+                setState(() {
+                  APPSTRUCTURE.switcher = !APPSTRUCTURE.switcher;
+                });
+              }
+            ));
+          }
+
+          return Stack(
+            children: APPSTRUCTURE.controllers,
+          );
+        },
       ),
     );
   }

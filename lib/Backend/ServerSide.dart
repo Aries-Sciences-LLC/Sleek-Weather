@@ -21,7 +21,6 @@ class ServerSide {
   ServerSide(this.baseURL, this.arguments);
 
   Future<Response> access(String type) async {
-    print('$baseURL?$arguments&${API_HEADER[type]}=${API_KEY[type]}'.replaceAll(" ", "+"));
     return await Dio().get('$baseURL?$arguments&${API_HEADER[type]}=${API_KEY[type]}'.replaceAll(" ", "+"));
   }
 }

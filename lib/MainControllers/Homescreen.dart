@@ -114,8 +114,8 @@ class _Homescreen extends State<Homescreen> with TickerProviderStateMixin {
                                       weatherLocation.displayName(),
                                       style: TextStyle(
                                         color: Color.fromRGBO(255, 255, 255, 0.5),
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                   ),
@@ -126,8 +126,8 @@ class _Homescreen extends State<Homescreen> with TickerProviderStateMixin {
                                       "${Weather.forecast[DataManager.locations.indexOf(weatherLocation)].temperature}°",
                                       style: TextStyle(
                                         color: Color.fromRGBO(255, 255, 255, 0.5),
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                   ),
