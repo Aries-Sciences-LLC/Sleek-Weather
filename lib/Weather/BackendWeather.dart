@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:sleek_weather/main.dart';
 import 'package:sleek_weather/Weather/WeatherIconMapper.dart';
@@ -8,9 +9,13 @@ import 'package:sleek_weather/Backend/DataManager.dart';
 import 'package:sleek_weather/Backend/ServerSide.dart';
 
 class Weather {
+  static const String key = "units";
+  static String units = "";
   static bool status = false;
   static List<Weather> forecast;
   static List<String> summaries;
+  static List<Weather> tForecast;
+  static List<String> tSummaries;
 
   final int id;
   final int time;
@@ -52,30 +57,45 @@ class Weather {
     }
   );
 
-  static void setupWeatherData() {
-    Weather.forecast = List();
-    Weather.summaries = List();
-    Weather.fetchData();
+  static void setupWeatherData(bool isReload) {
+    if (isReload) {
+      Weather.tForecast = List();
+      Weather.tSummaries = List();
+    } else {
+      Weather.forecast = List();
+      Weather.summaries = List();
+    }
+    Weather.fetchData(isReload);
   }
 
-  static void fetchData() {
+  static Future<void> fetchData(bool isReload) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey(Weather.key)) {
+      prefs.setString(Weather.key, "imperial");
+    }
+    Weather.units = prefs.getString(Weather.key);
     for(int i = 0; i < DataManager.locations.length; i++) {
       double latitude = DataManager.locations[i].latitude;
       double longitude = DataManager.locations[i].longitude;
-      ServerSide("https://api.openweathermap.org/data/2.5/weather", "lat=$latitude&lon=$longitude&units=imperial").access("OPENWEATHERMAP").then(
+      ServerSide("https://api.openweathermap.org/data/2.5/weather", "lat=$latitude&lon=$longitude&units=$units").access("OPENWEATHERMAP").then(
         (weatherData) {
-          forecast.add(Weather.fromJson(weatherData.data));
-          summaries.add("It's ${weatherData.data['main']['temp'].toDouble().round()}° with ${weatherData.data['weather'][0]['description']}.");
+          if (isReload) {
+            tForecast.add(Weather.fromJson(weatherData.data));
+            tSummaries.add("It's ${weatherData.data['main']['temp'].toDouble().round()}° with ${weatherData.data['weather'][0]['description']}.");
+          } else {
+            forecast.add(Weather.fromJson(weatherData.data));
+            summaries.add("It's ${weatherData.data['main']['temp'].toDouble().round()}° with ${weatherData.data['weather'][0]['description']}.");
+          }
 
           if (i == DataManager.locations.length - 1) {
-            Weather.setupCards();
+            Weather.setupCards(isReload);
           }
         }
       );
     }
   }
 
-  static void setupCards() {
+  static void setupCards(isReload) {
     for(int i = 0; i < DataManager.locations.length; i++) {
       double latitude = DataManager.locations[i].latitude;
       double longitude = DataManager.locations[i].longitude;
@@ -84,24 +104,44 @@ class Weather {
 
           List<dynamic> cardData = weatherData.data["hourly"]["data"];
           for(int j = 0; j < cardData.length; j++) {
-            forecast[i].forecastCards.add(CardData(
-              icon: Weather.darkSkyIcons(cardData[j]["icon"]),
-              temperature: cardData[j]["temperature"].toDouble().round(),
-              time: "${Weather.darkSkyTime(DateTime.fromMillisecondsSinceEpoch(cardData[j]["time"].toDouble().round() * 1000).hour)}",
-            ));
+            if (isReload) {
+              tForecast[i].forecastCards.add(CardData(
+                icon: Weather.darkSkyIcons(cardData[j]["icon"]),
+                temperature: cardData[j]["temperature"].toDouble().round(),
+                time: "${Weather.darkSkyTime(DateTime.fromMillisecondsSinceEpoch(cardData[j]["time"].toDouble().round() * 1000).hour)}",
+              ));
+            } else {
+              forecast[i].forecastCards.add(CardData(
+                icon: Weather.darkSkyIcons(cardData[j]["icon"]),
+                temperature: cardData[j]["temperature"].toDouble().round(),
+                time: "${Weather.darkSkyTime(DateTime.fromMillisecondsSinceEpoch(cardData[j]["time"].toDouble().round() * 1000).hour)}",
+              ));
+            }
           }
 
           List<dynamic> weekdayData = weatherData.data["daily"]["data"];
           for (int j = 0; j < weekdayData.length; j++) {
-            forecast[i].weekdays.add(WeekDay(
-              icon: Weather.darkSkyIcons(cardData[j]["icon"]),
-              temperature: (weekdayData[j]["temperatureHigh"].toDouble().round() - (weekdayData[j]["temperatureHigh"].toDouble().round() / weekdayData[j]["temperatureLow"].toDouble().round())).round(),
-              day: Weather.darkSkyWeekTime(weekdayData[j]["time"].toDouble().round()),
-            ));
+            if (isReload) {
+              tForecast[i].weekdays.add(WeekDay(
+                icon: Weather.darkSkyIcons(cardData[j]["icon"]),
+                temperature: (weekdayData[j]["temperatureHigh"].toDouble().round() - (weekdayData[j]["temperatureHigh"].toDouble().round() / weekdayData[j]["temperatureLow"].toDouble().round())).round(),
+                day: Weather.darkSkyWeekTime(weekdayData[j]["time"].toDouble().round()),
+              ));
+            } else {
+              forecast[i].weekdays.add(WeekDay(
+                icon: Weather.darkSkyIcons(cardData[j]["icon"]),
+                temperature: (weekdayData[j]["temperatureHigh"].toDouble().round() - (weekdayData[j]["temperatureHigh"].toDouble().round() / weekdayData[j]["temperatureLow"].toDouble().round())).round(),
+                day: Weather.darkSkyWeekTime(weekdayData[j]["time"].toDouble().round()),
+              ));
+            }
           }
 
           if (i == DataManager.locations.length - 1) {
             status = true;
+            if (isReload) {
+              forecast = tForecast;
+              summaries = tSummaries;
+            }
             main();
           }
         }

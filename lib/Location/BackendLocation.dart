@@ -46,34 +46,44 @@ class Location {
       (locations) {
         if (locations == null) {
           Location.getCurrentCoordinates((location) {
-            DataManager.locations.add(location);
-            callback();
+            if (location == null) {
+              callback(false);
+            } else {
+              DataManager.locations.add(location);
+              callback(true);
+            }
           });
         } else {
           DataManager.locations = locations;
-          callback();
+          callback(true);
         }
       }
     );
   }
 
   static void getCurrentCoordinates(Function callback) {
-    Geolocator.checkPermission().then((value) => {
-      if (value != LocationPermission.denied && value != LocationPermission.deniedForever) {
-        Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((Position position) async {
-          try {
-            List<Address> p = await Geocoder.local.findAddressesFromCoordinates(new Coordinates(position.latitude, position.longitude));
-            callback(Location(p[0].locality + ", " + p[0].adminArea + ", " + p[0].countryName, position.latitude, position.longitude));
-          } catch (e) {
-            print(e);
+    Geolocator.isLocationServiceEnabled().then((value) => {
+      if (value) {
+        Geolocator.checkPermission().then((value) => {
+          if (value != LocationPermission.denied && value != LocationPermission.deniedForever) {
+            Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best).then((Position position) async {
+              try {
+                List<Address> p = await Geocoder.local.findAddressesFromCoordinates(new Coordinates(position.latitude, position.longitude));
+                callback(Location(p[0].locality + ", " + p[0].adminArea + ", " + p[0].countryName, position.latitude, position.longitude));
+              } catch (e) {
+                print(e);
+              }
+            }).catchError((e) {
+              print(e);
+            })
+          } else {
+            Geolocator.requestPermission().then((value) => {
+              getCurrentCoordinates(callback)
+            })
           }
-        }).catchError((e) {
-          print(e);
         })
       } else {
-        Geolocator.requestPermission().then((value) => {
-          getCurrentCoordinates(callback)
-        })
+        callback(null)
       }
     });
   }
@@ -98,7 +108,7 @@ class Location {
       (response) {
         final coordinates = response.data['results'][0]['geometry']['location'];
         DataManager.locations.add(Location(name, coordinates['lat'], coordinates['lng']));
-        Weather.fetchData();
+        Weather.fetchData(false);
       }
     );
   }

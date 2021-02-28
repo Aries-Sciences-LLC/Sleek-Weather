@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sleek_weather/Colors/ColorsManager.dart';
 import 'package:sleek_weather/Weather/Forecast.dart';
 
@@ -25,6 +26,14 @@ class Homescreen extends StatefulWidget {
 class _Homescreen extends State<Homescreen> with TickerProviderStateMixin {
   bool _visible = false;
   bool _weather = false;
+  bool _imperial = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _imperial = Weather.units == "imperial";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +42,90 @@ class _Homescreen extends State<Homescreen> with TickerProviderStateMixin {
       height: MediaQuery.of(context).size.height,
       child: Stack(
         children: <Widget>[
+          AnimatedPositioned(
+            top: _visible ? 20 : -150,
+            left: 20,
+            width: 110,
+            height: 40,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.purple.shade200,
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Stack(
+                children: [
+                  AnimatedPositioned(
+                    top: 5,
+                    left: _imperial ? 50 : 5,
+                    width: 55,
+                    height: 30,
+                    duration: const Duration(
+                      milliseconds: 300,
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    )
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              _imperial = false;
+                            });
+                            Weather.units = _imperial ? "imperial" : "metric";
+                            SharedPreferences.getInstance().then((prefs) => {
+                              prefs.setString(Weather.key, Weather.units),
+                              Weather.setupWeatherData(true),
+                            });
+                          },
+                          textColor: _imperial ? Colors.white : Colors.purple.shade300,
+                          child: Text(
+                            "°C",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: FlatButton(
+                          onPressed: () {
+                            setState(() {
+                              _imperial = true;
+                            });
+                            Weather.units = _imperial ? "imperial" : "metric";
+                            SharedPreferences.getInstance().then((prefs) => {
+                              prefs.setString(Weather.key, Weather.units),
+                              Weather.setupWeatherData(true),
+                            });
+                          },
+                          textColor: _imperial ? Colors.purple.shade200 : Colors.white,
+                          child: Text(
+                            "°F",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            duration: const Duration(
+              milliseconds: 500,
+            )
+          ),
           AnimatedPositioned(
             top: _visible ? -300 : -50,
             right: -5,
@@ -400,7 +493,6 @@ class _Homescreen extends State<Homescreen> with TickerProviderStateMixin {
               onPressed: () {
                 setState(() {
                   _weather = !_weather;
-
                   if(!_weather) {
                     AdMobWrapper.main.createAd();
                   }

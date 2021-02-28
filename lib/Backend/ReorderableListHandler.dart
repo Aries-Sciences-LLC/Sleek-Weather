@@ -10,6 +10,8 @@ import 'package:sleek_weather/Location/BackendLocation.dart';
 class ItemData {
   ItemData(this.title, this.key);
 
+  static ItemData currentItem;
+
   final String title;
 
   // Each item in reorderable list needs stable and unique key
@@ -152,6 +154,7 @@ class Item extends StatelessWidget {
         onPressed: () {
           SystemChannels.textInput.invokeMethod('TextInput.hide');
           Location.reverseGeocode(this.data.title);
+          ItemData.currentItem = this.data;
           this.handler();
         },
       ));

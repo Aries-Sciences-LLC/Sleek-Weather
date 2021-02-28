@@ -8,6 +8,7 @@ import 'package:sleek_weather/MainControllers/InternetError.dart';
 import 'package:sleek_weather/MainControllers/AnimatedBackground/AnimatedBackground.dart';
 import 'package:sleek_weather/Backend/ConnectionStatusSingleton.dart';
 import 'package:sleek_weather/Location/BackendLocation.dart';
+import 'package:sleek_weather/Location/SelectLocation.dart';
 import 'package:sleek_weather/MainControllers/Loadingscreen.dart';
 import 'package:sleek_weather/Weather/BackendWeather.dart';
 
@@ -21,7 +22,7 @@ void main() {
         fontFamily: "Avenir-Book",
       ),
       debugShowCheckedModeBanner: false,
-    )
+    ),
   );
 }
 
@@ -33,13 +34,17 @@ class SleekWeather extends StatefulWidget {
 class _SleekWeather extends State<SleekWeather> {
 
   AppStructure APPSTRUCTURE;
+  bool hasLocation = false;
 
   @override
   void initState() {
     super.initState();
     ColorsManager.setupColorValues();
-    Location.setupLocations(() {
-      Weather.setupWeatherData();
+    Location.setupLocations((locationAvailable) {
+      if (locationAvailable) {
+        Weather.setupWeatherData(false);
+        hasLocation = true;
+      }
     });
 
     APPSTRUCTURE = AppStructure();
@@ -64,6 +69,8 @@ class _SleekWeather extends State<SleekWeather> {
         builder: (BuildContext context, AsyncSnapshot<bool> connected) {
           if (!connectivityProtocol.hasConnection) {
             APPSTRUCTURE.setMainController(InternetErrorController());
+          } else if (!hasLocation) {
+            APPSTRUCTURE.setMainController(SelectLocationController());
           } else if (!DataManager.verifiedData()) {
             APPSTRUCTURE.setupData();
             APPSTRUCTURE.setMainController(Loadingscreen());
@@ -106,7 +113,7 @@ class AppStructure {
   }
 
   void setupData() {
-    Weather.setupWeatherData();
+    Weather.setupWeatherData(false);
   }
 
   void setMainController(StatefulWidget controller) {
