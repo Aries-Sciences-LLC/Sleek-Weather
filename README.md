@@ -1,5 +1,5 @@
 # Sleek Weather
-![App Icon](https://github.com/Aries-Sciences-LLC/Website/blob/master/images/appicons/weatherios.png)
+![App Icon](https://github.com/Aries-Sciences-LLC/Sleek-Weather/blob/master/assets/appicon/Icon-60%403x.png)
 
 Built off the latest programming technology for phones: Flutter, this app lets you see your weather data perfectly without any hassle. You can add unlimited locations and can swipe through them as fast as you want. And all the information auto-updates in the blink of an eye.
 
